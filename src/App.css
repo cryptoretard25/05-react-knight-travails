@@ -1,38 +1,77 @@
 .App {
-  text-align: center;
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(10rem, 1fr) minmax(30rem, 3fr) minmax(
+      10rem,
+      1fr
+    );
+  grid-template-rows: 10rem 1fr;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+.header {
+  grid-row: 1;
+  grid-column: 1 / 4;
+  background-color: var(--stale-200);
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.main {
+  padding: 10rem;
+  grid-area: 2 / 2;
+  display: grid;
+  grid-template-rows: minmax(36rem, 24vw) minmax(4rem, 3vw);
+  grid-template-columns: minmax(4rem, 3vw) minmax(36rem, 24vw);
+  justify-content: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.gamefield {
+  grid-area: 1 / 2;
+  width: max(36rem, 24vw);
+  height: max(36rem, 24vw);
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  outline: 1px solid var(--stale-900);
+}
+
+.cell{
+    outline: 0.5px solid var(--stale-900);
+  box-sizing:content-box;
+  outline-offset: -1px
+}
+
+.chars {
+  grid-area: 2/2;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  
+}
+
+.char {
+  padding: 1rem 0;
+  font-weight: bold;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  color: var(--stale-900);
+}
+
+.numbers {
+  grid-area: 1/1;
+  display: grid;
+  grid-template-rows: repeat(8, 1fr);
+  color: var(--stale-900);
+}
+
+.number {
+  padding: 0 1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--stale-900);
 }
