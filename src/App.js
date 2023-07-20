@@ -33,28 +33,30 @@ function Numbers() {
   );
 }
 
-function Cell({color, data}){
-  return <div className={`cell ${color}}`}>{data}</div>;
+function Cell({ color, data }) {
+  return <div className={`cell ${color}`}>{data}</div>;
 }
 
 function Gamefield() {
   const cells = Array.from({ length: 8 }, () =>
-    Array.from({ length: 8 }, () => {
-      return <div className="cell"></div>;
-    })
+    Array.from({ length: 8 }, () => {})
   );
-
-  console.log(cells);
 
   return (
     <div className="gamefield">
-      {cells.map((row, index) => {
-        row.map((cell, index) => {
-          if(row%2===0){
-            return cell % 2 === 0 ? (
-              <div className="cell"></div>
+      {cells.map((row, rowindex) => {
+        return row.map((cell, cellindex) => {
+          if (rowindex % 2 === 0) {
+            return cellindex % 2 === 0 ? (
+              <Cell key={cellindex} color={"white"} />
             ) : (
-              <div className="cell black"></div>
+              <Cell key={cellindex} color={"black"} />
+            );
+          }else{
+            return cellindex % 2 !== 0 ? (
+              <Cell key={cellindex} color={"white"} />
+            ) : (
+              <Cell key={cellindex} color={"black"} />
             );
           }
         });
@@ -72,7 +74,6 @@ function Main() {
     </div>
   );
 }
-
 
 function App() {
   return (

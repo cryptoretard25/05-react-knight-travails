@@ -11,7 +11,6 @@
 .header {
   grid-row: 1;
   grid-column: 1 / 4;
-  background-color: var(--stale-200);
 
   display: flex;
   align-items: center;
@@ -34,13 +33,11 @@
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
-  outline: 1px solid var(--stale-900);
+  outline: 2px solid var(--stale-900);
 }
 
 .cell{
-    outline: 0.5px solid var(--stale-900);
-  box-sizing:content-box;
-  outline-offset: -1px
+
 }
 
 .cell.black{
