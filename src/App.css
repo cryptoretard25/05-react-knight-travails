@@ -43,14 +43,22 @@
   outline-offset: -1px
 }
 
-.chars {
+.cell.black{
+  background-color: var(--stale-900);
+}
+
+.cell.white{
+  background-color: white;
+}
+
+.letters {
   grid-area: 2/2;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   
 }
 
-.char {
+.letter {
   padding: 1rem 0;
   font-weight: bold;
   height: 100%;
