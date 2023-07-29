@@ -5,24 +5,39 @@
       10rem,
       1fr
     );
-  grid-template-rows: 10rem 1fr;
+  max-height: 100vh;
+  grid-template-rows: 10rem 2fr 1fr 5rem;
+  gap: 4rem;
 }
 
 .header {
+  font-family: "Beautiful-People";
   grid-row: 1;
   grid-column: 1 / 4;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid var(--stale-900);
+
+}
+
+.footer{
+  font-family: "Beautiful-People";
+  border-top: 1px solid var(--stale-900);
+  grid-area: 4 / span 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .main {
-  padding: 10rem;
+  padding: 0 10rem 0 6rem;
   grid-area: 2 / 2;
   display: grid;
   grid-template-rows: minmax(36rem, 24vw) minmax(4rem, 3vw);
   grid-template-columns: minmax(4rem, 3vw) minmax(36rem, 24vw);
+  align-content: end;
   justify-content: center;
 }
 
@@ -36,23 +51,29 @@
   outline: 2px solid var(--stale-900);
 }
 
-.cell{
-
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-.cell.black{
+.cell.black {
   background-color: var(--stale-900);
+  color: white;
+  font-weight: bold;
 }
 
-.cell.white{
+.cell.white {
   background-color: white;
+  color: var(--stale-900);
+  font-weight: bold;
 }
 
 .letters {
   grid-area: 2/2;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  
 }
 
 .letter {
@@ -79,4 +100,208 @@
   align-items: center;
   justify-content: flex-end;
   color: var(--stale-900);
+}
+
+.menu {
+  grid-area: 3/2;
+  align-self: flex-start;
+  justify-self: center;
+  width: max(36rem, 24vw);
+  outline: 1px solid var(--stale-900);
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem
+}
+
+.move-btn{
+  padding: 1rem 3rem;
+  border: 1px solid var(--stale-900);
+  border-radius: 0.5rem;
+  background-color: var(--stale-900);
+  font-weight: bolder;
+  color: white;
+  outline: none;
+}
+
+.move-btn:hover{
+  cursor: pointer;
+  background-color: white;
+  color: var(--stale-900);
+}
+
+.move-btn:active{
+  transform: scale(0.95);
+}
+
+.target {
+  background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 512 512' xml:space='preserve' fill='%23000000'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'%3E%3C/g%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'%3E%3C/g%3E%3Cg id='SVGRepo_iconCarrier'%3E%3Cg%3E%3Crect x='231.226' y='24.774' style='fill:%23a49f0a;' width='49.548' height='82.581'%3E%3C/rect%3E%3Crect x='231.226' y='404.645' style='fill:%23a49f0a;' width='49.548' height='82.581'%3E%3C/rect%3E%3Cpath style='fill:%23a49f0a;' d='M256,0C114.84,0,0,114.842,0,256s114.84,256,256,256s256-114.842,256-256S397.16,0,256,0z M256,462.452c-105.454,0-192.682-79.479-204.96-181.677h56.315v-49.548H51.04C63.318,129.027,150.546,49.548,256,49.548 s192.682,79.479,204.96,181.677h-56.315v49.548h56.315C448.682,382.973,361.454,462.452,256,462.452z'%3E%3C/path%3E%3C/g%3E%3Cpath style='fill:%23a49f0a;' d='M256,0v49.548c105.454,0,192.682,79.479,204.96,181.677h-56.315v49.548h56.315 C448.682,382.973,361.454,462.452,256,462.452V512c141.16,0,256-114.842,256-256S397.16,0,256,0z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 80%;
+  height: 80%;
+}
+
+
+@keyframes moveUpLeft {
+  0% {
+    transform: translate(45px, 90px);
+  }
+  33% {
+    transform: translate(45px, 45px);
+  }
+  66% {
+    transform: translate(45px, 0);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+.move-up-left {
+  transform: translate(0, 0);
+  animation: moveUpLeft 2s ease-in-out;
+}
+
+@keyframes moveUpRight {
+  0% {
+    transform: translate(-45px, 90px);
+  }
+  33% {
+    transform: translate(-45px, 45px);
+  }
+  66% {
+    transform: translate(-45px, 0px);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+.move-up-right {
+  transform: translate(0, 0);
+  animation: moveUpRight 2s ease-in-out;
+}
+
+@keyframes moveDownRight {
+  0% {
+    transform: translate(-45px, -90px);
+  }
+  33% {
+    transform: translate(-45px, -45px);
+  }
+  66% {
+    transform: translate(-45px, 0px);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+.move-down-right {
+  transform: translate(0, 0);
+  animation: moveDownRight 2s ease-in-out;
+}
+
+@keyframes moveDownLeft {
+  0% {
+    transform: translate(45px, -90px);
+  }
+  33% {
+    transform: translate(45px, -45px);
+  }
+  66% {
+    transform: translate(45px, 0px);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+.move-down-left {
+  transform: translate(0, 0);
+  animation: moveDownLeft 2s ease-in-out;
+}
+
+@keyframes moveRightUp {
+  0%{
+    transform: translate(-90px, 45px);
+  }
+  33% {
+    transform: translate(-90px, 0px);
+  }
+  66% {
+    transform: translate(-45px, 0px);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+.move-right-up {
+  transform: translate(0, 0);
+  animation: moveRightUp 2s ease-in-out;
+}
+
+@keyframes moveRightDown {
+  0%{
+    transform: translate(-90px, -45px);
+  }
+  33% {
+    transform: translate(-90px, 0px);
+  }
+  66% {
+    transform: translate(-45px, 0px);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+.move-right-down {
+  transform: translate(0, 0);
+  animation: moveRightDown 2s ease-in-out;
+}
+
+@keyframes moveLeftUp {
+  0%{
+    transform: translate(90px, 45px);
+  }
+  33% {
+    transform: translate(90px, 0px);
+  }
+  66% {
+    transform: translate(45px, 0px);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+.move-left-up {
+  transform: translate(0, 0);
+  animation: moveLeftUp 2s ease-in-out;
+}
+
+@keyframes moveLeftDown {
+  0%{
+    transform: translate(90px, -45px);
+  }
+  33% {
+    transform: translate(90px, 0px);
+  }
+  66% {
+    transform: translate(45px, 0px);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+.move-left-down {
+  transform: translate(0, 0);
+  animation: moveLeftDown 2s ease-in-out;
+}
+
+
+.knight {
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  transition: transform 0.5s ease-in-out;
 }
