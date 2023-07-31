@@ -1,6 +1,6 @@
 const { log } = console;
 
-export default class Board {
+class Board {
   constructor(size) {
     this.board = new Map();
     this.size = size;
@@ -19,14 +19,14 @@ export default class Board {
       const [row, col] = JSON.parse(pos);
       //log(row, col);
       const moves = [
-        [row + 1, col + 2, "move-right-up"],
-        [row + 2, col + 1, "move-up-right"],
-        [row + 2, col - 1, "move-up-left"],
-        [row + 1, col - 2, "move-right-down"],
-        [row - 1, col - 2, "move-left-down"],
-        [row - 2, col - 1, "move-down-left"],
-        [row - 2, col + 1, "move-down-right"],
-        [row - 1, col + 2, "move-left-up"],
+        [row + 1, col + 2, "move-right-down"], //+
+        [row + 2, col + 1, "move-down-right"], //move-up-right
+        [row + 2, col - 1, "move-down-left"],
+        [row + 1, col - 2, "move-left-down"], //+
+        [row - 1, col - 2, "move-left-up"], // +
+        [row - 2, col - 1, "move-up-left"], // +
+        [row - 2, col + 1, "move-up-right"], //move-down-right
+        [row - 1, col + 2, "move-right-up"],
       ].filter((move) => {
         return move[0] >= 0 && move[0] < 8 && move[1] >= 0 && move[1] < 8;
       });
@@ -35,7 +35,7 @@ export default class Board {
   }
 }
 
-class Knight {
+export default class _Knight {
   constructor(size) {
     this.board = new Board(size);
     this.board.addVertices();
@@ -69,22 +69,7 @@ class Knight {
   }
 }
 
-const knight = new Knight(8);
 
-const movesQueue = knight.knightMoves([3, 3], [4, 3]);
+// console.log(_getMovesArray(movesQueue))
 
-async function _delayedMoves(queue, ms, callback) {
-  while (queue.length) {
-    const item = queue.shift();
-    if (Array.isArray(item[0])) {
-      const [move, animation] = item;
-      callback(move, animation);
-    } else {
-      callback(item);
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, ms));
-  }
-}
-
-_delayedMoves(movesQueue, 4000, console.log);
+// _delayedMoves(movesQueue, 4000, console.log);
