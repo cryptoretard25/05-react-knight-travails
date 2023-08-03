@@ -1,24 +1,9 @@
 import { useContext } from "react";
 import "./App.css";
-import {
-  delay,
-  deepCopy,
-  delayedMoves,
-  getMovesArray,
-  itemExists,
-  getReadablePos,
-  handle,
-  removeNumbers,
-} from "./javascript/functions";
+import { delay, deepCopy, delayedMoves, itemExists, getReadablePos, handle, removeNumbers, } from "./javascript/functions";
 import knight from "./images/knight.svg";
 import _Knight from "./javascript/back";
-import {
-  GlobalStateContest,
-  GlobalStateProvider,
-  emptyData,
-  emptyAlert,
-  emptyPosition,
-} from "./globalState";
+import { GlobalStateContest, GlobalStateProvider, emptyData, emptyAlert, emptyPosition, } from "./globalState";
 
 const board = new _Knight(8);
 
@@ -188,10 +173,13 @@ function Menu() {
 
   const onRestartClick = () => {
     if (blockCells) return;
-    setData(emptyData);
-    setPosition(emptyPosition);
+    setData(deepCopy(emptyData));
+    setPosition(deepCopy(emptyPosition));
     setKnightAdded(false);
+    
   };
+
+console.log(data);
 
   function MoveButton({ onMoveClick }) {
     return (

@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import { deepCopy } from "./javascript/functions";
 
 const GlobalStateContest = createContext();
 
@@ -9,11 +10,11 @@ const emptyAlert = { data: "", state: false };
 const emptyPosition = { start: null, end: null };
 
 const GlobalStateProvider = ({ children }) => {
-  const [showAlert, setShowAlert] = useState({ data: "", state: false });
-  const [data, setData] = useState(emptyData);
+  const [showAlert, setShowAlert] = useState(deepCopy(emptyAlert));
+  const [data, setData] = useState(deepCopy(emptyData));
   const [knightAdded, setKnightAdded] = useState(false);
   const [blockCells, setBlockCells] = useState(false);
-  const [position, setPosition] = useState(emptyPosition)
+  const [position, setPosition] = useState(deepCopy(emptyPosition))
 
   return (
     <GlobalStateContest.Provider
