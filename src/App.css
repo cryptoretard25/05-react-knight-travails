@@ -117,14 +117,33 @@
   gap: 1.5rem
 }
 
+.btn{
+padding: 1rem 3rem;
+border-radius: 0.5rem;
+font-weight: bolder;
+color: white;
+}
+
 .move-btn{
-  padding: 1rem 3rem;
   border: 1px solid var(--stale-900);
-  border-radius: 0.5rem;
   background-color: var(--stale-900);
+}
+
+.restart-btn{
+  border: 1px solid #821010;
+  background-color: #821010;
+}
+
+.alert-div{
+  position: fixed;
+  top: 11rem;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  -background-color: var(--stale-900);
+  color: #821010;
   font-weight: bolder;
-  color: white;
-  outline: none;
+  padding: 1rem 2rem;
+  font-size: 1.8rem;
 }
 
 .move-btn:hover{
@@ -133,7 +152,7 @@
   color: var(--stale-900);
 }
 
-.move-btn:active{
+.btn:active{
   transform: scale(0.95);
 }
 

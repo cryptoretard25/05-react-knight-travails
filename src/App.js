@@ -1,50 +1,26 @@
-import { useState } from "react";
+import { useContext } from "react";
 import "./App.css";
 import {
+  delay,
   deepCopy,
   delayedMoves,
   getMovesArray,
   itemExists,
   getReadablePos,
   handle,
+  removeNumbers,
 } from "./javascript/functions";
 import knight from "./images/knight.svg";
 import _Knight from "./javascript/back";
+import {
+  GlobalStateContest,
+  GlobalStateProvider,
+  emptyData,
+  emptyAlert,
+  emptyPosition,
+} from "./globalState";
 
-const board = new _Knight(8); 
-
-function Letters() {
-  const letters = Array.from({ length: 8 }, (_, index) =>
-    String.fromCharCode(index + 97)
-  );
-  return (
-    <div className="letters">
-      {letters.map((number, index) => {
-        return (
-          <div className="letter" key={index}>
-            {number}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function Numbers() {
-  const numbers = Array.from({ length: 8 }, (_, index) => 8 - index);
-
-  return (
-    <div className="numbers">
-      {numbers.map((number, index) => {
-        return (
-          <div className="number" key={index}>
-            {number}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+const board = new _Knight(8);
 
 function Cell({ color, data, onclk }) {
   return (
@@ -72,21 +48,45 @@ function Target() {
   return <div className="target"></div>;
 }
 
-function Gamefield({ position, setPosition, setKnightAdded, data, setData }) {
-  const onCellClick = (x, y) => {
+function AlertDiv({ data }) {
+  return <div className="alert-div">Alert: {data}!</div>;
+}
+
+function Gamefield() {
+  const {
+    showAlert,
+    setShowAlert,
+    data,
+    setData,
+    setKnightAdded,
+    blockCells,
+    position,
+    setPosition,
+  } = useContext(GlobalStateContest);
+
+  const onCellClick = async (x, y) => {
+    if (blockCells) {
+      setShowAlert({ data: "You cant do it now!", state: true });
+      await delay(3000);
+      setShowAlert(emptyAlert);
+      return;
+    }
     if (!itemExists(Knight, data)) {
       setPosition((prev) => ({ ...prev, start: [x, y] }));
       data[x][y] = <Knight imgUrl={knight} />;
       setData(deepCopy(data));
-
     } else if (!itemExists(Target, data) && !data[x][y]) {
       setPosition((prev) => ({ ...prev, end: [x, y] }));
       data[x][y] = <Target />;
       setData(deepCopy(data));
       setKnightAdded(true);
-
     } else {
-      console.log("Error!");
+      setShowAlert({
+        data: "Knight and target cell position added, time to move",
+        state: true,
+      });
+      await delay(3000);
+      setShowAlert(emptyAlert);
       return;
     }
   };
@@ -129,23 +129,85 @@ function Gamefield({ position, setPosition, setKnightAdded, data, setData }) {
     });
   });
 
-  return <div className="gamefield">{cellsDOM}</div>;
+  return (
+    <>
+      <div className="gamefield">{cellsDOM}</div>
+      {showAlert.state ? <AlertDiv data={showAlert.data} /> : null}
+    </>
+  );
 }
 
-function Menu({ knightAdded, position, data, setData, emptyData }) {
-  const [moves, setMoves] = useState(null);
+function Menu() {
+  const {
+    knightAdded,
+    setKnightAdded,
+    showAlert,
+    setShowAlert,
+    data,
+    setData,
+    blockCells,
+    setBlockCells,
+    position,
+    setPosition,
+  } = useContext(GlobalStateContest);
 
   const readableStart = position.start && getReadablePos(position.start);
   const readableEnd = position.end && getReadablePos(position.end);
+  const emptyAlert = { data: "", state: false };
 
-  const onMoveClick = () => {
-    if (!position.start || !position.end) return;
-    else {
-      const movesQueue = board.knightMoves(position.start, position.end)
-  
-      delayedMoves(movesQueue, 4000, handle, data, setData, Knight, knight)   
+  const onMoveClick = async () => {
+    if (blockCells) {
+      return;
+    }
+    if (
+      !position.start ||
+      !position.end ||
+      JSON.stringify(position.start) === JSON.stringify(position.end)
+    ) {
+      setShowAlert({ data: "Set knight positions properly", state: true });
+      await delay(3000);
+      setShowAlert(emptyAlert);
+      return;
+    } else {
+      removeNumbers(data);
+      setBlockCells(true);
+      const movesQueue = board.knightMoves(position.start, position.end);
+      await delayedMoves(
+        movesQueue,
+        3000,
+        handle,
+        data,
+        setData,
+        Knight,
+        knight,
+        setPosition
+      );
+      setBlockCells(false);
     }
   };
+
+  const onRestartClick = () => {
+    if (blockCells) return;
+    setData(emptyData);
+    setPosition(emptyPosition);
+    setKnightAdded(false);
+  };
+
+  function MoveButton({ onMoveClick }) {
+    return (
+      <button onClick={onMoveClick} className="btn move-btn">
+        Move
+      </button>
+    );
+  }
+
+  function RestartButton({ onRestartClick }) {
+    return (
+      <button onClick={onRestartClick} className="btn restart-btn">
+        Restart
+      </button>
+    );
+  }
 
   function KnightAdded({ start, end }) {
     return (
@@ -167,78 +229,85 @@ function Menu({ knightAdded, position, data, setData, emptyData }) {
     );
   }
 
-  function Path({ moves }) {
+  return (
+    <div className="menu">
+      <h3>Move knight</h3>
+      {knightAdded ? (
+        !blockCells ? (
+          <KnightAdded start={readableStart} end={readableEnd} />
+        ) : (
+          <>
+            <div>Knight moving...</div>
+            <div>You cant do anything now</div>
+          </>
+        )
+      ) : (
+        <KnightNotAdeed />
+      )}
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <MoveButton onMoveClick={onMoveClick} />
+        <RestartButton onRestartClick={onRestartClick} />
+      </div>
+      {showAlert.state ? <AlertDiv data={showAlert.data} /> : null}
+    </div>
+  );
+}
+
+function Main() {
+  function Letters() {
+    const letters = Array.from({ length: 8 }, (_, index) =>
+      String.fromCharCode(index + 97)
+    );
     return (
-      <div>
-        You made it in {moves.length} moves! Path:
-        {moves.map((item) => JSON.stringify(item))}
+      <div className="letters">
+        {letters.map((number, index) => {
+          return (
+            <div className="letter" key={index}>
+              {number}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  function Numbers() {
+    const numbers = Array.from({ length: 8 }, (_, index) => 8 - index);
+
+    return (
+      <div className="numbers">
+        {numbers.map((number, index) => {
+          return (
+            <div className="number" key={index}>
+              {number}
+            </div>
+          );
+        })}
       </div>
     );
   }
 
   return (
-    <div className="menu">
-      <h3>Move knight</h3>
-      {knightAdded ? (
-        <KnightAdded start={readableStart} end={readableEnd} />
-      ) : (
-        <KnightNotAdeed />
-      )}
-      <button onClick={onMoveClick} className="move-btn">
-        Move
-      </button>
-    </div>
-  );
-}
-
-function Main({ position, setPosition, setKnightAdded, setData, data }) {
-  return (
     <div className="main">
       <Letters />
       <Numbers />
-      <Gamefield
-        position={position}
-        setPosition={setPosition}
-        setKnightAdded={setKnightAdded}
-        setData={setData}
-        data={data}
-      />
+      <Gamefield />
     </div>
   );
 }
 
 function App() {
-  const emptyData = Array.from({ length: 8 }, () =>
-    Array.from({ length: 8 }, () => {})
-  );
-  const [data, setData] = useState(emptyData);
-  const [position, setPosition] = useState({
-    start: null,
-    end: null,
-  });
-  const [knightAdded, setKnightAdded] = useState(false);
-
   return (
-    <div className="App">
-      <div className="header">
-        <h1>React Knight Travails</h1>
+    <GlobalStateProvider>
+      <div className="App">
+        <div className="header">
+          <h1>React Knight Travails</h1>
+        </div>
+        <Main />
+        <Menu />
+        <div className="footer">@cryptoretard</div>
       </div>
-      <Main
-        position={position}
-        setPosition={setPosition}
-        setKnightAdded={setKnightAdded}
-        data={data}
-        setData={setData}
-      />
-      <Menu
-        knightAdded={knightAdded}
-        position={position}
-        data={data}
-        setData={setData}
-        emptyData={emptyData}
-      />
-      <div className="footer">@cryptoretard</div>
-    </div>
+    </GlobalStateProvider>
   );
 }
 
