@@ -1,12 +1,9 @@
 .App {
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(10rem, 1fr) minmax(30rem, 3fr) minmax(
-      10rem,
-      1fr
-    );
+  grid-template-columns: minmax(10rem, 1fr) minmax(30rem, 3fr) minmax( 10rem, 1fr );
   max-height: 100vh;
-  grid-template-rows: 10rem 2fr 1fr 5rem;
+  grid-template-rows: 10rem 1fr 5rem;
   gap: 4rem;
 }
 
@@ -25,15 +22,23 @@
 .footer{
   font-family: "Beautiful-People";
   border-top: 1px solid var(--stale-900);
-  grid-area: 4 / span 3;
+  grid-area: 3 / span 3;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.container{
+  grid-area: 2/2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
 .main {
   padding: 0 10rem 0 6rem;
-  grid-area: 2 / 2;
   display: grid;
   grid-template-rows: 36rem 4rem;
   grid-template-columns: 4rem 36rem;
@@ -103,9 +108,6 @@
 }
 
 .menu {
-  grid-area: 3/2;
-  align-self: flex-start;
-  justify-self: center;
   width: 36rem;
   outline: 1px solid var(--stale-900);
   padding: 2rem;

@@ -291,8 +291,11 @@ function App() {
         <div className="header">
           <h1>React Knight Travails</h1>
         </div>
-        <Main />
-        <Menu />
+        <div className="container">
+          <Main />
+          <Menu />
+        </div>
+
         <div className="footer">@cryptoretard</div>
       </div>
     </GlobalStateProvider>
