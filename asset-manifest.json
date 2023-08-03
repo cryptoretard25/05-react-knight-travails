@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/react05-knight-travails/static/css/main.f3ef2cb5.css",
+    "main.js": "/react05-knight-travails/static/js/main.e9c1d48e.js",
+    "static/js/787.eb2551ca.chunk.js": "/react05-knight-travails/static/js/787.eb2551ca.chunk.js",
+    "static/media/BeautifulPeople.ttf": "/react05-knight-travails/static/media/BeautifulPeople.17efd45acf38dcea2253.ttf",
+    "static/media/knight.svg": "/react05-knight-travails/static/media/knight.4ce88503af223dde343ec1211c089f39.svg",
+    "index.html": "/react05-knight-travails/index.html",
+    "main.f3ef2cb5.css.map": "/react05-knight-travails/static/css/main.f3ef2cb5.css.map",
+    "main.e9c1d48e.js.map": "/react05-knight-travails/static/js/main.e9c1d48e.js.map",
+    "787.eb2551ca.chunk.js.map": "/react05-knight-travails/static/js/787.eb2551ca.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f3ef2cb5.css",
+    "static/js/main.e9c1d48e.js"
+  ]
+}
